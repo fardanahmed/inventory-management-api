@@ -29,18 +29,23 @@ A full-stack REST API for inventory management built with TypeScript, Express.js
 - **Image Upload** — Profile picture and product image support via Cloudinary
 - **Error Handling** — Custom error classes (BadRequest, NotFound, Unauthenticated, Unauthorized)
 
-## Database Schema
+## 🏗️ Architecture & Database Schema
 
+```mermaid
+erDiagram
+    User ||--o{ AuditLog : generates
+    Warehouse ||--o{ StockMovement : has
+    Supplier ||--o{ PurchaseOrder : receives
+    PurchaseOrder ||--|{ PurchaseOrderItem : contains
+    Product ||--o{ PurchaseOrderItem : included_in
+    Product ||--o{ SalesOrderItem : included_in
+    Category ||--o{ Product : categorizes
+    Customer ||--o{ SalesOrder : places
+    SalesOrder ||--|{ SalesOrderItem : contains
+    StockMovement }o--|| Product : tracks
 ```
-User ─── AuditLog
-Category ──┐
-           ├── Product ──┬── PurchaseOrderItem ── PurchaseOrder ── Supplier
-Warehouse ─┘             ├── StockMovement
-                         └── SalesOrderItem ── SalesOrder ── Customer
-```
 
-**Models:** User, Category, Product, Supplier, Warehouse, PurchaseOrder, PurchaseOrderItem, StockMovement, Customer, SalesOrder, SalesOrderItem, AuditLog
-
+**Core Entities:** User, Category, Product, Supplier, Warehouse, PurchaseOrder, PurchaseOrderItem, StockMovement, Customer, SalesOrder, SalesOrderItem, AuditLog
 ## Quick Start
 
 ```bash
